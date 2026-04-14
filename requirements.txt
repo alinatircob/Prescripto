@@ -1,0 +1,21 @@
+# Interfață web
+streamlit
+
+# Procesare date și documente
+pandas
+PyPDF2
+Pillow
+
+# Integrare Google AI & Vision
+google-generativeai
+google-cloud-vision
+
+# Integrare Google Calendar
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+
+# Arhitectură și validare date
+pydantic
+email-validator
+python-dotenv

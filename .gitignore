@@ -1,0 +1,46 @@
+# ==========================================
+# 1. SECRETE ȘI CREDENȚIALE (CRITIC!)
+# ==========================================
+.env
+credentials.json
+.streamlit/secrets.toml
+
+# ==========================================
+# 2. MEDII VIRTUALE PYTHON
+# ==========================================
+venv/
+.venv/
+env/
+.env_dir/
+
+# ==========================================
+# 3. FIȘIERE GENERATE DE PYTHON
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ==========================================
+# 4. FIȘIERE SPECIFICE SISTEMULUI DE OPERARE
+# ==========================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ==========================================
+# 5. FIȘIERE GENERATE DE EDITOARE DE COD (IDE)
+# ==========================================
+# VS Code
+.vscode/
+
+# PyCharm / IntelliJ
+.idea/
+*.iws
+*.iml
