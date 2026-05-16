@@ -1,4 +1,4 @@
-# 💊 Prescripto - Asistent Medical & Traducător de Rețete 
+# 💊 Prescripto - Medical Assistant & Prescription Translator 
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.32.0-FF4B4B)
@@ -7,112 +7,112 @@
 ![Google Calendar](https://img.shields.io/badge/Google%20Calendar-API-success)
 ![Pydantic](https://img.shields.io/badge/Pydantic-Data%20Validation-blueviolet)
 
-**Prescripto** este o aplicație web inovatoare concepută pentru a traduce, valida și programa schemele de tratament medical. Pornește de la o simplă fotografie a unei rețete (indiferent cât de ilizibil este scrisul medicului), extrage datele folosind un sistem AI hibrid, le validează cu baze de date oficiale și sincronizează automat alarmele de administrare direct în Google Calendar-ul pacientului.
+**Prescripto** is an innovative web application designed to translate, validate, and schedule medical treatment plans. Starting from a simple photo of a prescription (no matter how illegible the doctor's handwriting is), it extracts data using a hybrid AI system, validates it against official databases, and automatically synchronizes administration alarms directly into the patient's Google Calendar.
 
-> 🏆 **Contextul Proiectului:** Acest proiect a luat naștere în cadrul **AI Ideation Hackathon (Innovation Labs Cluj)**. Ulterior, codul de tip prototip (MVP) a fost complet refactorizat într-o arhitectură robustă de producție, orientată pe obiect (OOP), fiind pregătit pentru scalabilitate.
-
----
-
-## 📑 Cuprins
-1. [Funcționalități Principale](#-funcționalități-principale)
-2. [Arhitectură și Tehnologii](#-arhitectură-și-tehnologii)
-3. [Materiale de Test și Documentație Business](#-materiale-de-test-și-documentație-business)
-4. [Ghid Complet de Instalare și Setare](#-ghid-complet-de-instalare-și-setare)
-5. [Mod de Utilizare (User Flow)](#-mod-de-utilizare-user-flow)
-6. [Structura Proiectului](#-structura-proiectului)
-7. [Roadmap și Îmbunătățiri Viitoare](#-roadmap-și-îmbunătățiri-viitoare)
+> 🏆 **Project Context:** This project was born within the **AI Ideation Hackathon (Innovation Labs Cluj)**. Subsequently, the prototype (MVP) code was completely refactorized into a robust production architecture, object-oriented (OOP), being prepared for scalability.
 
 ---
 
-## ✨ Funcționalități Principale
-
-* **📸 Scanare și OCR Hibrid:** Folosește Google Cloud Vision pentru a extrage cu acuratețe maximă textul brut de pe rețete medicale, chitanțe sau bilete de ieșire din spital.
-* **🤖 Analiză AI cu Validare Încrucișată (RAG):** Motorul Google Gemini 1.5 analizează textul brut și îl corelează inteligent cu:
-  * Nomenclatorul Oficial de Boli (PDF)
-  * Lista completă a Medicamentelor (CSV)
-  * *Rezultat: Elimină halucinațiile AI-ului și returnează doar medicamente care există fizic în farmacii.*
-* **💊 Prospecte Simplificate (Pe înțelesul tuturor):** Generează explicații clare, lipsite de jargon medical excesiv, despre scopul tratamentului, efecte adverse și sfaturi de administrare.
-* **✅ Interfață de Validare:** Utilizatorul menține controlul absolut. Poate edita concentrațiile și poate alege manual alternativele generice disponibile în farmacie, bazate pe DCI (Denumirea Comună Internațională).
-* **📅 Sincronizare Google Calendar:** Creează automat evenimente recurente și alarme (remindere pop-up cu 10 minute înainte) trimițând invitații directe pe telefonul pacientului (prin intermediul unui Service Account).
+## 📑 Table of Contents
+1. [Main Features](#-main-features)
+2. [Architecture and Technologies](#-architecture-and-technologies)
+3. [Test Materials and Business Documentation](#-test-materials-and-business-documentation)
+4. [Complete Installation and Setup Guide](#-complete-installation-and-setup-guide)
+5. [How to Use (User Flow)](#-how-to-use-user-flow)
+6. [Project Structure](#-project-structure)
+7. [Roadmap and Future Improvements](#-roadmap-and-future-improvements)
 
 ---
 
-## 🏗️ Arhitectură și Tehnologii
+## ✨ Main Features
 
-Aplicația respectă principiile **Clean Architecture**, **Separation of Concerns** și **SOLID**, fiind divizată logic pentru o testare și mentenanță ușoară:
-
-* **Modele (`models/`):** Utilizăm **Pydantic** pentru definirea strictă a schemelor de date (ex: `PrescriptionData`, `ConfirmedMedication`). Asigură *Type Safety* și validarea automată a JSON-urilor returnate de AI.
-* **Servicii (`services/`):** Izolează complet logica de business:
-    * `ai_service.py`: Gestionează prompturile și comunicarea cu Google Vision și Gemini.
-    * `data_service.py`: Gestionează interogările în fișierele locale (Pandas pentru CSV, PyPDF2 pentru PDF).
-    * `calendar_service.py`: Gestionează autentificarea și payload-urile pentru Google Calendar API.
-* **Interfață UI (`ui/`):** Componente Streamlit modulare (`sidebar.py`, `views.py`, `components.py`) care transformă `main.py` într-un simplu dirijor
-
----
-
-## 📊 Materiale de Test și Documentație Business
-
-Pentru o evaluare completă a proiectului, în folderul `/docs` (sau direct în repository) veți găsi:
-1. **Lean Canvas (`LeanCanvas.jpeg`):** Modelul de business creat la Hackathon, care detaliază problema, soluția, segmentul de clienți și modelul de monetizare.
-2. **Prezentarea pentru Pitch(`prezentare_prescripto_pitch.pdf`):** Prezentarea (Pitch) susținută în fața juriului la Innovation Labs. Conține problema identificată, soluția propusă, analiza pieței și strategia de dezvoltare a produsului
-3. **Imagine de Test (`RetetaTest.jpg`):** O rețetă medicală completă pregătită pentru a fi încărcată în aplicație pentru testarea flow-ului OCR + AI.
-4. **Baze de Date:**
-   * Nomenclatorul de coduri de boală (în `/data`).
-   * Baza de date cu medicamente DCI (în `/data`).
+* **📸 Hybrid OCR and Scanning:** Uses Google Cloud Vision to extract raw text from medical prescriptions, receipts, or hospital discharge summaries with maximum accuracy.
+* **🤖 AI Analysis with Cross-Validation (RAG):** The Google Gemini 1.5 engine analyzes raw text and intelligently correlates it with:
+  * The Official Disease Nomenclature (PDF)
+  * The complete Medications List (CSV)
+  * *Result: Eliminates AI hallucinations and returns only medications that physically exist in pharmacies.*
+* **💊 Simplified Leaflets (For Everyone):** Generates clear explanations, free of excessive medical jargon, regarding the purpose of the treatment, side effects, and administration advice.
+* **✅ Validation Interface:** The user maintains absolute control. They can edit concentrations and manually choose generic alternatives available in pharmacies, based on INN (International Nonproprietary Name) / DCI.
+* **📅 Google Calendar Synchronization:** Automatically creates recurring events and alarms (pop-up reminders 10 minutes before), sending direct invitations to the patient's phone (via a Service Account).
 
 ---
 
-## 🚀 Ghid Complet de Instalare și Setare
+## 🏗️ Architecture and Technologies
 
-### Precondiții
-* **Python 3.9** sau o versiune mai nouă instalată pe sistemul tău.
-* Un cont **Google Cloud Console** cu următoarele API-uri activate:
+The application complies with **Clean Architecture**, **Separation of Concerns**, and **SOLID** principles, being logically divided for easy testing and maintenance:
+
+* **Models (`models/`):** We use **Pydantic** for the strict definition of data schemas (e.g., `PrescriptionData`, `ConfirmedMedication`). It ensures *Type Safety* and automatic validation of the JSON structures returned by the AI.
+* **Services (`services/`):** Completely isolates the business logic:
+    * `ai_service.py`: Manages prompts and communication with Google Vision and Gemini.
+    * `data_service.py`: Manages queries in local files (Pandas for CSV, PyPDF2 for PDF).
+    * `calendar_service.py`: Manages authentication and payloads for the Google Calendar API.
+* **UI Interface (`ui/`):** Modular Streamlit components (`sidebar.py`, `views.py`, `components.py`) that turn `main.py` into a simple traffic controller.
+
+---
+
+## 📊 Test Materials and Business Documentation
+
+For a complete evaluation of the project, in the `/docs` folder (or directly in the repository) you will find:
+1. **Lean Canvas (`LeanCanvas.jpeg`):** The business model created at the Hackathon, detailing the problem, solution, customer segment, and monetization model.
+2. **Pitch Presentation (`prezentare_prescripto_pitch.pdf`):** The presentation (Pitch) delivered to the jury at Innovation Labs. It contains the identified problem, proposed solution, market analysis, and product development strategy.
+3. **Test Image (`RetetaTest.jpg`):** A complete medical prescription ready to be uploaded into the application to test the OCR + AI flow.
+4. **Databases:**
+   * Disease codes nomenclature (in `/data`).
+   * INN/DCI medications database (in `/data`).
+
+---
+
+## 🚀 Complete Installation and Setup Guide
+
+### Prerequisites
+* **Python 3.9** or a newer version installed on your system.
+* A **Google Cloud Console** account with the following APIs enabled:
     * *Google Cloud Vision API*
     * *Google Calendar API*
 * O cheie API **Google Gemini** validă (obținută de pe [Google AI Studio](https://aistudio.google.com/)).
 
-### Pasul 1: Clonarea și pregătirea mediului
-1. Clonează acest repository local:
+### Step 1: Cloning and environment preparation
+1. Clone this repository locally:
    ```bash
    git clone [https://github.com/username-ul-tau/prescripto.git](https://github.com/username-ul-tau/prescripto.git)
    cd prescripto
-2. Creează și activează un mediu virtual Python izolat:
+2. Create and activate an isolated Python virtual environment:
     ```bash
-   # Pentru Windows
+   # For Windows
     python -m venv .venv
     .venv\Scripts\activate
 
-    # Pentru macOS/Linux
+    # For macOS/Linux
     python3 -m venv .venv
     source .venv/bin/activate
-3. Instalează pachetele necesare:
+3. Install the required packages:
     ```bash
    python -m pip install --upgrade pip
     pip install -r requirements.txt
    
-### Pasul 2: Configurarea Variabilelor de Mediu (Secrets)
-1. Creează un fișier numit exact .env în rădăcina proiectului.
-2. Adaugă cheia ta Gemini:
+### Step 2: Configuring Environment Variables (Secrets)
+1. Create a file named exactly .env in the root of the project.
+2. Add your Gemini key:
     ```python
-   GEMINI_API_KEY="AIzaSy...cheia-ta-aici..."
+   GEMINI_API_KEY="AIzaSy...your-key..."
 
-### Pasul 3: Configurarea Google Calendar (Service Account)
-1. În Google Cloud Console, creează un Service Account (Cont de Serviciu).
-2. Generează o cheie privată pentru acest cont și descarc-o sub formă de fișier JSON.
-3. Redenumește fișierul descărcat în credentials.json și plasează-l în folderul rădăcină al proiectului (lângă main.py și .env).
+### Step 3: Configuring Google Calendar (Service Account)
+1. In the Google Cloud Console, create a Service Account.
+2. Generate a private key for this account and download it as a JSON file.
+3. Rename the downloaded file to credentials.json and place it in the root folder of the project (next to main.py and .env).
 
-### Pasul 4: Pornirea Aplicației
-1. Rulează comanda de mai jos în terminalul tău pentru a porni serverul web:
+### Step 4: Starting the Application
+1. Run the command below in your terminal to start the web server:
     ```bash
    streamlit run main.py
-2. Aplicația va fi disponibilă în browser la adresa: http://localhost:8501.
+2. The application will be available in the browser at: http://localhost:8501.
 
 ---
 
-## 🎯 Mod de Utilizare (User Flow)
-1. Scanează (Upload): Trage imaginea de test (RetetaTest.jpeg) peste zona de upload din interfață.
-2. Procesează (AI Magic): Apasă butonul „Procesează Rețeta cu AI”. Urmărește statusul în timp real: Vision citește textul, Gemini extrage logica medicală, iar Pandas caută alternativele în baza de date.
-3. Validează (Human in the Loop): Revizuiește tab-urile generate. Dacă AI-ul a identificat Noliprel 5mg, dar tu ai cumpărat Noliprel 10mg, folosește meniul drop-down pentru a selecta alternativa achiziționată de la farmacie. Poți citi pe loc un prospect rezumat de AI.
-4. Programează (Sincronizare Calendar): Introdu adresa ta de email (ex: ion.popescu@gmail.com) în secțiunea finală și apasă „Adaugă Alarmele”.
-5. Finalizare: Verifică adresa de email introdusă. Vei primi invitații oficiale de la asistentul robot. Odată acceptate, alarmele se activează pe telefonul tău.
+## 🎯 How to Use (User Flow)
+1. Scan (Upload): Drag and drop the test image (RetetaTest.jpeg) over the upload area in the interface.
+2. Process (AI Magic): Press the "Process Prescription with AI" button. Track the status in real time: Vision reads the text, Gemini extracts the medical logic, and Pandas searches for alternatives in the database.
+3. Validate (Human in the Loop): Review the generated tabs. If the AI identified Noliprel 5mg, but you bought Noliprel 10mg, use the drop-down menu to select the alternative purchased from the pharmacy. You can read a summary of the leaflet generated by the AI on the spot.
+4. Schedule (Calendar Synchronization): Enter your email address (e.g., ion.popescu@gmail.com) in the final section and press "Add Alarms".
+5. Completion: Verify the entered email address. You will receive official invitations from the assistant robot. Once accepted, the alarms will activate on your phone.
 
